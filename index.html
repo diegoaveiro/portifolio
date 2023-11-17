@@ -3,210 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diego Aveiro's Dinamyc Portifolio</title>
+    <title>Welcome Preload</title>
     <style>
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          /* border: 1px red solid; */
-        }
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh; 
-            width: 100vw; 
             margin: 0;
-            overflow: hidden;
-            position: relative;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #3498db; /* Cor de fundo, ajuste conforme necessário */
+            color: #fff; /* Cor do texto, ajuste conforme necessário */
+            overflow: hidden; /* Ocultar a barra de rolagem durante a transição */
         }
 
-        section {
-            cursor: move;
-            user-select: none;
-            position: absolute;
-            touch-action: none;
+        #preload {
+            font-size: 2em; /* Tamanho do texto, ajuste conforme necessário */
+            opacity: 1;
+            transition: opacity 1s ease-in-out; /* Adiciona uma transição suave de 1 segundo */
         }
 
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: auto;
-            transition: transform 0.5s ease;
-            display: block;
-            margin: auto;
-        }  
-
-        button {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            margin: 10px 10px;
-            padding: 2px;
-            border: 1px orange solid;
-            border-radius: 4px;
-            background-color: wheat;
-            z-index: 9999;
-        }  
-
-        a {
-            text-decoration: none;
-        }
-
-        @media (prefers-color-scheme: dark) {
-          body {
-          background-color:black;
-          color: #fff;
-          }
-        
-          h1 {
-            filter: drop-shadow(0px 1px 1px white);
-          }
-        
-          img {
-            filter: drop-shadow(0px 1px 2px white);
-          }
+        #preload.hidden {
+            opacity: 0;
         }
     </style>
 </head>
-
 <body>
 
-    <section id="drag1" onclick="confirmRedirect()" onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
-        <a href="https://www.linkedin.com/in/diegoaveirobs/" target="_blank"><h1>My Dynamic Portfolio</h1></a>
-    </section>
-
-    <section id="drag2" onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
-        <a href="https://diegoaveiro.github.io/eva.vivart/" target="_blank"><img src="images/eva.png" alt="Imagem" width="100px" height="100px"></a>
-    </section>
-    
-    <section id="drag3" onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
-        <a href="https://diegoaveiro.github.io/comraca_equipaderesgateanimal/" target="_blank"><img src="images/comraca.png" alt="Imagem" width="150px" height="150px"></a>
-    </section>
-    
-    <section id="drag4" onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
-        <a href="https://diegoaveiro.github.io/bereal/" target="_blank"><img src="images/bereal.png" alt="Imagem" width="150px" height="150px"></a>
-    </section>
-    
-    <section id="drag5" onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
-        <a href="https://diegoaveiro.github.io/curriculum/" target="_blank"><img src="images/pdf.png" alt="Imagem" width="100px" height="100px"></a>
-    </section>
-    
-    <button onclick="shuffleSections(), shuffleZIndex(), changeImage()"><img id="changingImage" src="images/yinyang.png" alt="Feng Shui" width="50px" height="50px"></button>
+    <div id="preload">Welcome!</div>
 
     <script>
-        function startDrag(event) {
-    var target = event.target.closest('section');
-    var offsetX = 0;
-    var offsetY = 0;
+        // Aguarde alguns segundos e depois oculte o preload e redirecione para a página principal
+        setTimeout(function() {
+            var preload = document.getElementById('preload');
+            preload.classList.add('hidden');
 
-    if (event.type === 'mousedown') {
-        offsetX = event.clientX - target.getBoundingClientRect().left;
-        offsetY = event.clientY - target.getBoundingClientRect().top;
-        document.addEventListener("mousemove", drag);
-        document.addEventListener("mouseup", stopDrag);
-    } else if (event.type === 'touchstart') {
-        offsetX = event.touches[0].clientX - target.getBoundingClientRect().left;
-        offsetY = event.touches[0].clientY - target.getBoundingClientRect().top;
-        document.addEventListener("touchmove", drag);
-        document.addEventListener("touchend", stopDrag);
-    }
-
-    function drag(e) {
-        e.preventDefault();
-
-        var clientX = e.clientX || e.touches[0].clientX;
-        var clientY = e.clientY || e.touches[0].clientY;
-
-        var newX = clientX - offsetX;
-        var newY = clientY - offsetY;
-
-        newX = Math.max(0, Math.min(newX, window.innerWidth - target.clientWidth));
-        newY = Math.max(0, Math.min(newY, window.innerHeight - target.clientHeight));
-
-        target.style.left = newX + "px";
-        target.style.top = newY + "px";
-
-        localStorage.setItem(target.id, JSON.stringify({ left: newX, top: newY }));
-    }
-
-    function stopDrag() {
-        document.removeEventListener("mousemove", drag);
-        document.removeEventListener("mouseup", stopDrag);
-        document.removeEventListener("touchmove", drag);
-        document.removeEventListener("touchend", stopDrag);
-    }
-
-    // Permite o comportamento padrão apenas quando não estiver arrastando
-    target.addEventListener("click", function (e) {
-        if (!target.classList.contains("dragging")) {
-            // Se não estiver arrastando, permite o comportamento padrão
-            window.location = target.querySelector('a').href;
-        }
-    });
-    }
-
-
-    function shuffleSections() {
-        var sections = document.querySelectorAll('section');
-        sections.forEach(function(section) {
-            var randomX = Math.random() * (window.innerWidth - section.clientWidth);
-            var randomY = Math.random() * (window.innerHeight - section.clientHeight);
-            section.style.left = randomX + 'px';
-            section.style.top = randomY + 'px'
-            localStorage.setItem(section.id, JSON.stringify({ left: randomX, top: randomY }));
-        });
-    }
-
-    function shuffleZIndex() {
-        var sections = document.querySelectorAll('section');
-        sections.forEach(function(section) {
-            var randomZIndex = Math.floor(Math.random() * 10);
-            section.style.zIndex = randomZIndex;
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        var sections = document.querySelectorAll('section');
-        sections.forEach(function(section) {
-            var storedPosition = localStorage.getItem(section.id);
-            if (storedPosition) {
-                storedPosition = JSON.parse(storedPosition);
-                section.style.left = storedPosition.left + 'px';
-                section.style.top = storedPosition.top + 'px';
-            }
-        });
-    });
-
-    var imageIndex = 0;
-    var images = [
-        'images/yinyang.png',
-        'images/yinyang2.png',
-        'images/yinyang3.png',
-        'images/yinyang4.png',
-    ];
-
-    function changeImage() {
-        var image = document.getElementById('changingImage');
-        imageIndex = (imageIndex + 1) % images.length;
-        image.src = images[imageIndex];
-    }
-
-    // Adiciona a animação de shuffle a cada 6 segundos
-    setInterval(shuffleSections, 6000);
-
-    // Changing images prefers-color-scheme
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  
-    mediaQuery.addEventListener('change', handleColorSchemeChange);
-
-    // Check the stored color scheme preference on page load
-    const storedColorScheme = localStorage.getItem('colorScheme');
-  
-  </script>
+            // Redirecionar após a transição de fade-out (1 segundo)
+            setTimeout(function() {
+                window.location.href = 'home.html'; // Substitua com o nome do seu arquivo principal
+            }, 1000);
+        }, 5000); // Aguarda 5 segundos antes de começar a transição
+    </script>
 
 </body>
 </html>

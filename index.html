@@ -90,6 +90,10 @@
         <a href="https://diegoaveiro.github.io/bereal/" target="_blank"><img src="images/bereal.png" alt="Imagem" width="150px" height="150px"></a>
     </section>
     
+    <section id="drag5" onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
+        <a href="/docs/curriculo.pdf" target="_blank"><img src="images/pdf.png" alt="Imagem" width="100px" height="100px"></a>
+    </section>
+    
     <button onclick="shuffleSections(), shuffleZIndex(), changeImage()"><img id="changingImage" src="images/yinyang.png" alt="" width="50px" height="50px"></button>
 
     <script>
@@ -190,8 +194,8 @@
         image.src = images[imageIndex];
     }
 
-    // Adiciona a animação de shuffle a cada 5 segundos
-    setInterval(shuffleSections, 5000);
+    // Adiciona a animação de shuffle a cada 6 segundos
+    setInterval(shuffleSections, 6000);
 
     // Changing images prefers-color-scheme
 

@@ -3,47 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Preload</title>
+    <title>Preload Animation</title>
+
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #3498db; /* Cor de fundo, ajuste conforme necessário */
-            color: #fff; /* Cor do texto, ajuste conforme necessário */
-            overflow: hidden; /* Ocultar a barra de rolagem durante a transição */
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #3498db;
+    color: #fff;
+    overflow: hidden;
+}
 
-        #preload {
-            font-size: 2em; /* Tamanho do texto, ajuste conforme necessário */
-            opacity: 1;
-            transition: opacity 1s ease-in-out; /* Adiciona uma transição suave de 1 segundo */
-        }
+.preload-container {
+    text-align: center;
+}
 
-        #preload.hidden {
-            opacity: 0;
-        }
+.preload-text {
+    font-size: 36px;
+    font-weight: bold;
+    opacity: 0;
+    display: inline-block;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
     </style>
 </head>
 <body>
-
-    <div id="preload">Welcome!</div>
+    <div class="preload-container" id="preload-container">
+        <div class="preload-text" id="preload-text"></div>
+    </div>
 
     <script>
-        // Aguarde alguns segundos e depois oculte o preload e redirecione para a página principal
-        setTimeout(function() {
-            var preload = document.getElementById('preload');
-            preload.classList.add('hidden');
+document.addEventListener("DOMContentLoaded", function () {
+    const preloadText = document.getElementById("preload-text");
+    const preloadContainer = document.getElementById("preload-container");
+const wordsToDisplay = ["Welcome", "to", "my", "Dynamic", "Portfolio."];
 
-            // Redirecionar após a transição de fade-out (1 segundo)
-            setTimeout(function() {
-                window.location.href = 'home.html'; // Substitua com o nome do seu arquivo principal
+    function displayWords(index) {
+        if (index < wordsToDisplay.length) {
+            preloadText.innerHTML = wordsToDisplay[index];
+            preloadText.style.animation = "fadeIn 0.8s ease-out forwards";
+
+            setTimeout(function () {
+                preloadText.style.animation = "fadeOut 0.8s ease-out forwards";
+                setTimeout(function () {
+                    displayWords(index + 1);
+                }, 600); // Ajuste conforme necessário
+            }, 1000); // Ajuste conforme necessário
+        } else {
+            // Após exibir todas as palavras, você pode ocultar o contêiner de pré-carregamento ou navegar para a próxima página
+            setTimeout(function () {
+              window.location.href = 'home.html';  
+              // preloadContainer.style.display = "none"; // ou window.location.href = "next-page.html";
             }, 1000);
-        }, 5000); // Aguarda 5 segundos antes de começar a transição
-    </script>
+        }
+    }
 
-</body>
+    displayWords(0);
+});
+
+    </script>
+  </body>
 </html>

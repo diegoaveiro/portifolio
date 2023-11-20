@@ -13,8 +13,8 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #3498db;
-    color: #fff;
+    background-color: white;
+    color: #000;
     overflow: hidden;
 }
 
@@ -48,6 +48,21 @@ body {
     }
 }
 
+@media (prefers-color-scheme: dark) {
+          body {
+          background-color:black;
+          color: #fff;
+          }
+        
+          h1 {
+            filter: drop-shadow(0px 1px 1px white);
+          }
+        
+          img {
+            filter: drop-shadow(0px 1px 2px white);
+          }
+        }
+
     </style>
 </head>
 <body>
@@ -59,7 +74,7 @@ body {
 document.addEventListener("DOMContentLoaded", function () {
     const preloadText = document.getElementById("preload-text");
     const preloadContainer = document.getElementById("preload-container");
-const wordsToDisplay = ["Welcome", "to", "my", "Dynamic", "Portfolio."];
+const wordsToDisplay = ["Welcome", "to", "my", "Dynamic", "Portfolio"];
 
     function displayWords(index) {
         if (index < wordsToDisplay.length) {
@@ -83,6 +98,15 @@ const wordsToDisplay = ["Welcome", "to", "my", "Dynamic", "Portfolio."];
 
     displayWords(0);
 });
+
+    // Changing images prefers-color-scheme 
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+      mediaQuery.addEventListener('change', handleColorSchemeChange);   
+
+      // Check the stored color scheme preference on page load
+      const storedColorScheme = localStorage.getItem('colorScheme');
 
     </script>
   </body>

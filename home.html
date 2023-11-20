@@ -39,21 +39,43 @@
             margin: auto;
         }  
 
-        button {
+        a {
+            text-decoration: none;
+        }
+
+        footer {
             position: fixed;
             bottom: 0;
             left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100vw;
+            z-index: 9999;
+        }
+
+        button {
             margin: 10px 10px;
             padding: 2px;
             border: 1px orange solid;
             border-radius: 4px;
             background-color: wheat;
-            z-index: 9999;
         }  
 
-        a {
-            text-decoration: none;
-        }
+        .aviso {
+          height: 50px;
+          /* transform: translate(-50%, -50%); */
+          background-color: rgba(255, 165, 0, 0.5);
+          color: black;
+          padding: 10px;
+          border: 1px solid rgba(255, 165, 0, 0.5);
+          border-radius: 5px;
+          opacity: 0;
+          transition: opacity 0.5s ease-in-out;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        } 
         
         @media (prefers-color-scheme: dark) {
           body {
@@ -94,8 +116,11 @@
         <a href="https://diegoaveiro.github.io/curriculum/" target="_blank"><img src="images/pdf.png" alt="Imagem" width="100px" height="100px"></a>
     </section>
     
-    <button onclick="shuffleSections(), shuffleZIndex(), changeImage()"><img id="changingImage" src="images/yinyang.png" alt="" width="50px" height="50px"></button>
+    <footer>
+        <div><button onclick="shuffleSections(), shuffleZIndex(), changeImage()"><img id="changingImage" src="images/yinyang.png"    alt="" width="50px" height="50px"></button></div>
 
+        <div class="aviso" id="aviso">Change The Feng Shui</div>
+    </footer>
 
     <script>
         function startDrag(event) {
@@ -159,6 +184,8 @@
             section.style.top = randomY + 'px'
             localStorage.setItem(section.id, JSON.stringify({ left: randomX, top: randomY }));
         });
+        // Call changeImage after shuffling sections
+    changeImage();
     }
 
     function shuffleZIndex() {
@@ -196,16 +223,46 @@
     }
 
     // Adiciona a animação de shuffle a cada 6 segundos
-    setInterval(shuffleSections, 6000);
+        setInterval(shuffleSections, 6000);
 
-    // Changing images prefers-color-scheme
+    
+    // Define the handleColorSchemeChange function
+        function handleColorSchemeChange(event) {
+          // Your code to handle the color scheme change
+          console.log('Color scheme changed:', event.matches ? 'dark' : 'light');
+        
+          // Additional color scheme change code if needed
+        }
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        // Create a media query
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+        // Add an event listener for changes in color scheme
+        mediaQuery.addEventListener('change', handleColorSchemeChange);
+
+        // Call the function once to handle the initial color scheme
+        handleColorSchemeChange(mediaQuery);
+
   
-    mediaQuery.addEventListener('change', handleColorSchemeChange);
 
-    // Check the stored color scheme preference on page load
-    const storedColorScheme = localStorage.getItem('colorScheme');
+    // Changing the Feng Shui
+        document.addEventListener('DOMContentLoaded', function() {
+          var repeticoes = 0;
+          var limiteRepeticoes = 1000;
+
+          var intervalo = setInterval(function() {
+            var aviso = document.getElementById('aviso');
+            aviso.style.opacity = (aviso.style.opacity === '0' || aviso.style.opacity === '') ? '1' : '0';
+
+            repeticoes++;
+
+            if (repeticoes >= limiteRepeticoes) {
+              clearInterval(intervalo); // Limite alcançado, parar a animação
+              aviso.style.display = 'none'; // Opcional: ocultar o aviso quando o limite é alcançado
+            }
+          }, 1500);
+        });
+
   </script>
 
 </body>

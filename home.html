@@ -189,7 +189,11 @@
             var randomX = Math.random() * (window.innerWidth - section.clientWidth);
             var randomY = Math.random() * (window.innerHeight - section.clientHeight);
             section.style.left = randomX + 'px';
-            section.style.top = randomY + 'px'
+            section.style.top = randomY + 'px';
+
+            // Adiciona shuffleZIndex ao embaralhar as seções
+            shuffleZIndex(section);
+
             localStorage.setItem(section.id, JSON.stringify({ left: randomX, top: randomY }));
         });
         // Call changeImage after shuffling sections

@@ -141,6 +141,7 @@
         offsetY = event.clientY - target.getBoundingClientRect().top;
         document.addEventListener("mousemove", drag);
         document.addEventListener("mouseup", stopDrag);
+        
     } else if (event.type === 'touchstart') {
         offsetX = event.touches[0].clientX - target.getBoundingClientRect().left;
         offsetY = event.touches[0].clientY - target.getBoundingClientRect().top;
